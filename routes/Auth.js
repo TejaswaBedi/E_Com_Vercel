@@ -5,6 +5,7 @@ const {
   checkAuth,
   resetPasswordRequest,
   resetPassword,
+  logout,
 } = require("../controller/Auth");
 const passport = require("passport");
 const router = express.Router();
@@ -18,6 +19,7 @@ router.post(
   loginUser
 );
 router.get("/check", passport.authenticate("jwt"), checkAuth);
+router.get("/logout", logout);
 router.post("/reset-password-request", resetPasswordRequest);
 router.post("/reset-password", resetPassword);
 
