@@ -49,6 +49,15 @@ exports.loginUser = async (req, res) => {
     .json({ id: user.id, role: user.role });
 };
 
+exports.logout = async (req, res) => {
+  res
+    .cookie("jwt", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    })
+    .sendStatus(200);
+};
+
 exports.checkAuth = async (req, res) => {
   if (req.user) {
     res.json(req.user);
@@ -64,7 +73,11 @@ exports.resetPasswordRequest = async (req, res) => {
     const token = crypto.randomBytes(48).toString("hex");
     user.resetPasswordToken = token;
     await user.save();
-    const resetPage = "https://e-com-vercel-git-main-tejaswa-bedis-projects.vercel.app/reset-password?token=" + token + "&email=" + email;
+    const resetPage =
+      "https://e-com-vercel-git-main-tejaswa-bedis-projects.vercel.app/reset-password?token=" +
+      token +
+      "&email=" +
+      email;
     const subject = "Reset password for e-commerce";
     const html = `<p>Click <a href='${resetPage}'> here</a> to Reset Password</p>`;
     if (email) {
