@@ -64,7 +64,7 @@ exports.resetPasswordRequest = async (req, res) => {
     const token = crypto.randomBytes(48).toString("hex");
     user.resetPasswordToken = token;
     await user.save();
-    const resetPage = "/reset-password?token=" + token + "&email=" + email;
+    const resetPage = "https://e-com-vercel-git-main-tejaswa-bedis-projects.vercel.app/reset-password?token=" + token + "&email=" + email;
     const subject = "Reset password for e-commerce";
     const html = `<p>Click <a href='${resetPage}'> here</a> to Reset Password</p>`;
     if (email) {
