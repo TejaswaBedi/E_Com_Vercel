@@ -23,8 +23,9 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const { isAuth, sanitizeUser, cookieExtractor } = require("./services/common");
 
-// Webhooks
+// Wenhooks
 const endpointSecret = process.env.ENDPOINT_SECRET;
+
 server.post(
   "/webhook",
   express.raw({ type: "application/json" }),
@@ -54,6 +55,7 @@ server.post(
     response.send();
   }
 );
+
 //JWT options
 const opts = {};
 opts.jwtFromRequest = cookieExtractor;
@@ -76,7 +78,6 @@ server.use(
     exposedHeaders: ["X-Total-Count"],
   })
 );
-
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use("/products", isAuth(), productsRouter.router);
@@ -90,7 +91,6 @@ server.use("/orders", isAuth(), orderRouter.router);
 server.get("*", (req, res) =>
   res.sendFile(path.resolve("build", "index.html"))
 );
-
 
 //Passport Middleware
 
