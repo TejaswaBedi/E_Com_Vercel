@@ -1,4 +1,6 @@
 const { Order } = require("../modal/Order");
+const { User } = require("../modal/User");
+const { sendMail, invoiceTemplate } = require("../services/common");
 
 exports.fetchOrdersByUser = async (req, res) => {
   try {
@@ -14,6 +16,12 @@ exports.createOrder = async (req, res) => {
   try {
     const order = new Order(req.body);
     const response = await order.save();
+    const user = await User.findById(order.user);
+    sendMail({
+      to: user.email,
+      html: invoiceTemplate(order),
+      subject: "Order Invoice",
+    });
     res.status(201).json(response);
   } catch (err) {
     res.status(400).json(err);
